@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
     <ListView
         android:layout_width="match_parent"
@@ -11,5 +11,22 @@
         android:id="@+id/lista_alunos">
     </ListView>
 
+    <Button
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/novo_aluno"
+        android:text="+"
+        android:textSize="40sp"
+        android:textColor="#ffffff"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/fundo"
+        android:elevation="10dp"
+        android:stateListAnimator="@null"
 
-</LinearLayout>
+        />
+
+
+</RelativeLayout>
