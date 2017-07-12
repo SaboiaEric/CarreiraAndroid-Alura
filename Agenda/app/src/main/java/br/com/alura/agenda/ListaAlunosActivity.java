@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Manifest;
 
+import br.com.alura.agenda.adapter.AlunosAdapter;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.modelo.Aluno;
 
@@ -129,8 +130,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
         AlunoDAO dao = new AlunoDAO(this);
         List<Aluno> alunos = dao.buscaAlunos();
         dao.close();
-        ListView listaAlunos = (ListView) findViewById(R.id.lista_alunos);
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<>(this,android.R.layout.simple_expandable_list_item_1,alunos);
+
+        AlunosAdapter adapter = new AlunosAdapter(this,alunos);
+        //ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, R.layout.list_item,alunos);
         listaAlunos.setAdapter(adapter);
     }
 
