@@ -1,6 +1,5 @@
 package br.com.alura.agenda;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.EditText;
@@ -10,19 +9,20 @@ import android.widget.RatingBar;
 import br.com.alura.agenda.modelo.Aluno;
 
 /**
- * Created by erics on 02/07/2017.
+ * Created by alura on 12/08/15.
  */
-
 public class FormularioHelper {
+
     private final EditText campoNome;
     private final EditText campoEndereco;
     private final EditText campoTelefone;
     private final EditText campoSite;
     private final RatingBar campoNota;
     private final ImageView campoFoto;
+
     private Aluno aluno;
 
-    public FormularioHelper(Activity activity) {
+    public FormularioHelper(FormularioActivity activity) {
         campoNome = (EditText) activity.findViewById(R.id.formulario_nome);
         campoEndereco = (EditText) activity.findViewById(R.id.formulario_endereco);
         campoTelefone = (EditText) activity.findViewById(R.id.formulario_telefone);
@@ -32,14 +32,13 @@ public class FormularioHelper {
         aluno = new Aluno();
     }
 
-    public Aluno pegarAlunos() {
+    public Aluno pegaAluno() {
         aluno.setNome(campoNome.getText().toString());
         aluno.setEndereco(campoEndereco.getText().toString());
         aluno.setTelefone(campoTelefone.getText().toString());
         aluno.setSite(campoSite.getText().toString());
         aluno.setNota(Double.valueOf(campoNota.getProgress()));
         aluno.setCaminhoFoto((String) campoFoto.getTag());
-
         return aluno;
     }
 
@@ -54,10 +53,8 @@ public class FormularioHelper {
     }
 
     public void carregaImagem(String caminhoFoto) {
-        if(caminhoFoto != null) {
-            //Pega arquivo que está no caminhoFoto e decodifica-o para o formato bitmap
+        if (caminhoFoto != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-            //Inclui uma escala no tamanho da imagem para que fique menor e insere true para dizer que será aplicado um filtro
             Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
             campoFoto.setImageBitmap(bitmapReduzido);
             campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
