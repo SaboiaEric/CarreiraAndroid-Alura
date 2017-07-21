@@ -2,6 +2,10 @@ package br.com.alura.agenda;
 
 import android.content.Intent;
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,31 +27,41 @@ public class ProvasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provas);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction tx = fragmentManager.beginTransaction();
+        tx.replace(R.id.frame_principal,new ListaProvasFragment());
+        //Verifica se está no modo paisagem para adicionar o segundo fragment dos detalhes das provas.
+        if(estaNoModoPaisagem()) {
+            tx.replace(R.id.frame_secundario, new DetalhesProvaFragment());
+        }
 
-        List<String> topicosPort = Arrays.asList("Sujeito","Objeto");
-        Prova provaPortugues= new Prova("Português", "22/07/2017", topicosPort);
+        tx.commit();
 
-        List<String> topicosMat = Arrays.asList("Trigonometria","Inequações");
-        Prova provaMatematica= new Prova("Matematica", "25/07/2017", topicosMat);
+    }
 
-
-        List<Prova> provas = Arrays.asList(provaPortugues,provaMatematica);
-        ArrayAdapter<Prova> adapter = new ArrayAdapter<Prova>(this,android.R.layout.simple_list_item_1,provas);
-
-        ListView lista = (ListView) findViewById(R.id.provas_lista);
-        lista.setAdapter(adapter);
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Prova prova = (Prova) parent.getItemAtPosition(position);
-                Toast.makeText(ProvasActivity.this, "Clicou na prova: " + prova,Toast.LENGTH_SHORT).show();
-                Intent vaiParaDetalhes = new Intent(ProvasActivity.this, DetalhesProvaActivity.class);
-                vaiParaDetalhes.putExtra("prova", prova);
-                startActivity(vaiParaDetalhes);
-            }
-        });
+    private boolean estaNoModoPaisagem() {
+        return getResources().getBoolean(R.bool.modoPaisagem);
     }
 
 
+    public void selecionaProva(Prova prova) {
+        FragmentManager manager = getSupportFragmentManager();
+        if(!estaNoModoPaisagem()) {
+            FragmentTransaction tx = manager.beginTransaction();
+            DetalhesProvaFragment detalhesFragment = new DetalhesProvaFragment();
+            Bundle parametros= new Bundle();
+            parametros.putSerializable("prova",prova);
+            //SetArguments é semelhante ao putExtra de um activity, no entanto, é para fragment
+            detalhesFragment.setArguments(parametros);
+
+            tx.replace(R.id.frame_principal,detalhesFragment);
+            tx.commit();
+        }else{
+            DetalhesProvaFragment detalhesProvaFragment =
+                    (DetalhesProvaFragment) manager.findFragmentById(R.id.frame_secundario);
+
+
+
+        }
+    }
 }
