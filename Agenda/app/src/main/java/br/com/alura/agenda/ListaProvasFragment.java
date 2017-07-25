@@ -51,7 +51,9 @@ public class ListaProvasFragment  extends Fragment{
                 Toast.makeText(getContext(), "Clicou na prova: " + prova,Toast.LENGTH_SHORT).show();
 
                 ProvasActivity provasActivity = (ProvasActivity) getActivity();
+
                 provasActivity.selecionaProva(prova);
+
             }
         });
 

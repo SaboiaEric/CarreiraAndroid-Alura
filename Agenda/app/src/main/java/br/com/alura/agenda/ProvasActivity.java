@@ -45,23 +45,28 @@ public class ProvasActivity extends AppCompatActivity {
 
 
     public void selecionaProva(Prova prova) {
+        //Não esquecer de usar o método de suporte.
         FragmentManager manager = getSupportFragmentManager();
         if(!estaNoModoPaisagem()) {
             FragmentTransaction tx = manager.beginTransaction();
+
+
             DetalhesProvaFragment detalhesFragment = new DetalhesProvaFragment();
-            Bundle parametros= new Bundle();
+            Bundle parametros = new Bundle();
             parametros.putSerializable("prova",prova);
             //SetArguments é semelhante ao putExtra de um activity, no entanto, é para fragment
             detalhesFragment.setArguments(parametros);
+            tx.replace(R.id.frame_principal, detalhesFragment);
 
-            tx.replace(R.id.frame_principal,detalhesFragment);
+            //Adiciona uma pilha, semelhante uma activity, para o botão voltar
+            tx.addToBackStack(null);
             tx.commit();
-        }else{
-            DetalhesProvaFragment detalhesProvaFragment =
+        }
+        else{
+            DetalhesProvaFragment detalhesFragment =
                     (DetalhesProvaFragment) manager.findFragmentById(R.id.frame_secundario);
 
-
-
+            detalhesFragment.populaCamposCom(prova);
         }
     }
 }
